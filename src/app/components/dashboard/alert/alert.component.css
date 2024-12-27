@@ -1,0 +1,11 @@
+.alert {
+    width: 32px;
+    height: 32px;
+    content: url("../../../../assets/res/siren_color.png");
+}
+
+.no-alert {
+    width: 32px;
+    height: 32px;
+    content: url("../../../../assets/res/siren_bw.png");
+}

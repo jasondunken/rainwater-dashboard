@@ -4,10 +4,11 @@ import { SiteInfoComponent } from './site-info/site-info.component';
 
 import { SiteObj } from '../../../../../rainwater-types/site.model';
 import { DataImportService } from '../../services/data-import.service';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
     selector: 'app-dashboard',
-    imports: [CommonModule, SiteInfoComponent],
+    imports: [CommonModule, SiteInfoComponent, HeaderComponent],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
 })

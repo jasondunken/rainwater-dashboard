@@ -1,0 +1,16 @@
+h1,
+h2,
+h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr;
+}
+
+.float-right {
+    justify-self: end;
+}

@@ -27,7 +27,8 @@
                                 "glob": "**/*",
                                 "input": "node_modules/leaflet/dist/images",
                                 "output": "/media"
-                            }
+                            },
+                            "src/assets/res"
                         ],
                         "styles": [
                             "src/styles.css",

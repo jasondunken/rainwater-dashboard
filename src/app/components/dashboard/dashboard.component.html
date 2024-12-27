@@ -1,24 +1,22 @@
-<div><h1>Rainwater Runoff Sensor Monitor</h1></div>
-<div id="panel2">
+<app-header></app-header>
+<div>
     @if (selectedSite) {
     <app-site-info [siteInfo]="selectedSite.site"></app-site-info>
     <div class="scroll-panel">
-        <div class="table">
-            <table>
-                <tr>
-                    @for (colName of selectedSite.features; track $index) {
-                    <th>{{ colName }}</th>
-                    }
-                </tr>
-                @for (row of selectedSite.rows; track $index) {
-                <tr>
-                    @for (val of row; track $index) {
-                    <td>{{ val }}</td>
-                    }
-                </tr>
+        <table>
+            <thead class="sticky-header">
+                @for (colName of selectedSite.features; track $index) {
+                <th>{{ colName }}</th>
                 }
-            </table>
-        </div>
+            </thead>
+            @for (row of selectedSite.rows; track $index) {
+            <tr>
+                @for (val of row; track $index) {
+                <td>{{ val }}</td>
+                }
+            </tr>
+            }
+        </table>
     </div>
     } @else {
     <button type="button" (click)="selectSite('1')">select test site</button>
