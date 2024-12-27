@@ -1,7 +1,7 @@
 <h2>Site Info</h2>
 @if (siteInfo) {
 <h3>
-    {{ siteInfo.SiteCode || "unknown code" }}
+    Site code: {{ siteInfo.SiteCode || "unknown code" }} Site name:
     {{ siteInfo.SiteName || "unknown name" }}
 </h3>
 <p>{{ siteInfo.SiteDescription.SiteNotes || "unknown description" }}</p>

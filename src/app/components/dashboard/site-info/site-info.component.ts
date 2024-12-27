@@ -1,6 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-
-import { DataImportService } from '../../../services/data-import.service';
+import { Component, Input } from '@angular/core';
 
 import { SiteInformation } from '../../../../../../rainwater-types/site.model';
 
@@ -10,12 +8,6 @@ import { SiteInformation } from '../../../../../../rainwater-types/site.model';
     templateUrl: './site-info.component.html',
     styleUrl: './site-info.component.css',
 })
-export class SiteInfoComponent implements AfterViewInit {
-    @Input() siteInfo?: SiteInformation;
-
-    constructor(private dataService: DataImportService) {}
-
-    ngAfterViewInit(): void {
-        console.log('selctedSite: ', this.siteInfo);
-    }
+export class SiteInfoComponent {
+    @Input({ required: true }) siteInfo?: SiteInformation;
 }

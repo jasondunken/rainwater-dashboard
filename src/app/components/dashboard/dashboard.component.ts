@@ -1,11 +1,14 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { Subscription } from 'rxjs';
+
 import { SiteInfoComponent } from './site-info/site-info.component';
+import { HeaderComponent } from './header/header.component';
+
+import { DataImportService } from '../../services/data-import.service';
 
 import { SiteObj } from '../../../../../rainwater-types/site.model';
-import { DataImportService } from '../../services/data-import.service';
-import { HeaderComponent } from './header/header.component';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,9 +17,12 @@ import { Subscription } from 'rxjs';
     styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements AfterViewInit {
-    private dataService = inject(DataImportService);
-    private alertSubscription: Subscription;
+    static pollTimer: ReturnType<typeof setInterval>;
 
+    private dataService = inject(DataImportService);
+    selectedSite: SiteObj | undefined;
+
+    private alertSubscription: Subscription;
     alertStatus: boolean = false;
 
     constructor() {
@@ -32,30 +38,18 @@ export class DashboardComponent implements AfterViewInit {
             });
     }
 
-    toggleAlertStatus(): void {
-        this.dataService.toggleAlertStatus();
-    }
-
-    ngOnDestroy(): void {
-        this.alertSubscription.unsubscribe();
-    }
-
-    selectedSite: SiteObj | undefined;
-
-    static pollTimer: ReturnType<typeof setInterval>;
-
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         DashboardComponent.pollTimer = setInterval(
             () => this.getNewData(),
             7000
         );
     }
 
-    selectSite(siteId: string) {
+    selectSite(siteId: string): void {
         this.selectedSite = this.dataService.getSelectedSite();
     }
 
-    siteSelected() {
+    siteSelected(): SiteObj | undefined {
         return this.selectedSite;
     }
 
@@ -68,5 +62,13 @@ export class DashboardComponent implements AfterViewInit {
                 }
             }
         });
+    }
+
+    toggleAlertStatus(): void {
+        this.dataService.toggleAlertStatus();
+    }
+
+    ngOnDestroy(): void {
+        this.alertSubscription.unsubscribe();
     }
 }

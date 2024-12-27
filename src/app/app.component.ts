@@ -5,10 +5,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { DataImportService } from './services/data-import.service';
 import { LocationService } from './services/location.service';
+import { ControlsComponent } from './components/dev/controls/controls.component';
 
 @Component({
     selector: 'app-root',
-    imports: [MapComponent, DashboardComponent],
+    imports: [MapComponent, DashboardComponent, ControlsComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
 })
