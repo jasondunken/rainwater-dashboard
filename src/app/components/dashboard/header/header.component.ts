@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+
 import { AlertComponent } from '../alert/alert.component';
-import { DataImportService } from '../../../services/data-import.service';
 
 @Component({
     selector: 'app-header',
@@ -8,10 +8,4 @@ import { DataImportService } from '../../../services/data-import.service';
     templateUrl: './header.component.html',
     styleUrl: './header.component.css',
 })
-export class HeaderComponent {
-    private dataService = inject(DataImportService);
-
-    toggleAlert(): void {
-        this.dataService.toggleAlertStatus();
-    }
-}
+export class HeaderComponent {}

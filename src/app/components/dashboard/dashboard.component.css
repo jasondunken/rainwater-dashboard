@@ -6,10 +6,16 @@
     background-color: bisque;
 }
 
+.dashboard-content {
+    background-color: darkcyan;
+    height: 100%;
+}
+
 .scroll-panel {
     height: 30%;
     overflow-y: auto;
     width: 100%;
+    background-color: aqua;
 }
 
 table {

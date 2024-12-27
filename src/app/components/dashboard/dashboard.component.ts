@@ -1,10 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SiteInfoComponent } from './site-info/site-info.component';
 
 import { SiteObj } from '../../../../../rainwater-types/site.model';
 import { DataImportService } from '../../services/data-import.service';
 import { HeaderComponent } from './header/header.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-dashboard',
@@ -13,7 +14,32 @@ import { HeaderComponent } from './header/header.component';
     styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements AfterViewInit {
-    constructor(private dataService: DataImportService) {}
+    private dataService = inject(DataImportService);
+    private alertSubscription: Subscription;
+
+    alertStatus: boolean = false;
+
+    constructor() {
+        this.alertSubscription = this.dataService
+            .getAlertStatus()
+            .subscribe((alertStatus) => {
+                this.alertStatus = alertStatus;
+                if (this.alertStatus) {
+                    alert(
+                        'Data integrity error. Email sent to testuser@email.edu'
+                    );
+                }
+            });
+    }
+
+    toggleAlertStatus(): void {
+        this.dataService.toggleAlertStatus();
+    }
+
+    ngOnDestroy(): void {
+        this.alertSubscription.unsubscribe();
+    }
+
     selectedSite: SiteObj | undefined;
 
     static pollTimer: ReturnType<typeof setInterval>;

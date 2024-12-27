@@ -1,7 +1,9 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataImportService } from '../../../services/data-import.service';
+
 import { Subscription } from 'rxjs';
+
+import { DataImportService } from '../../../services/data-import.service';
 
 @Component({
     selector: 'app-alert',
@@ -10,25 +12,19 @@ import { Subscription } from 'rxjs';
     styleUrl: './alert.component.css',
 })
 export class AlertComponent implements OnDestroy {
-    private dataService = inject(DataImportService);
-    private alertSubscription: Subscription;
+    private alertStatus: Subscription;
 
-    showAlert = false;
+    showAlert: boolean = false;
 
-    constructor() {
-        this.alertSubscription = this.dataService
+    constructor(private dataService: DataImportService) {
+        this.alertStatus = this.dataService
             .getAlertStatus()
-            .subscribe((alertStatus) => {
-                this.showAlert = alertStatus;
-                if (this.showAlert) {
-                    alert(
-                        'Data integrity error. Email sent to testuser@email.edu'
-                    );
-                }
+            .subscribe((status) => {
+                this.showAlert = status;
             });
     }
 
     ngOnDestroy(): void {
-        this.alertSubscription.unsubscribe();
+        this.alertStatus.unsubscribe();
     }
 }

@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div>
+<div class="dashboard-content">
     @if (selectedSite) {
     <app-site-info [siteInfo]="selectedSite.site"></app-site-info>
     <div class="scroll-panel">
@@ -22,3 +22,4 @@
     <button type="button" (click)="selectSite('1')">select test site</button>
     }
 </div>
+<button type="button" (click)="toggleAlertStatus()">toggle alert</button>
