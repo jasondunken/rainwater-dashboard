@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+import { DataService } from '../../../services/data.service';
+import { LocationService } from '../../../services/location.service';
+import { MapService } from '../../../services/map.service';
+import { MapLocation } from '../../../../../../rainwater-types/site.model';
+
 @Component({
     selector: 'app-controls',
     imports: [],
@@ -7,16 +12,38 @@ import { Component } from '@angular/core';
     styleUrl: './controls.component.css',
 })
 export class ControlsComponent {
+    selectedSite: MapLocation = {
+        siteId: '0',
+        lat: 0,
+        lng: 0,
+        icon: undefined,
+    };
+
+    constructor(
+        private locationService: LocationService,
+        private mapService: MapService,
+        private dataService: DataService
+    ) {}
+
     getLocations() {
-        throw new Error('Method not implemented.');
+        const locations = this.locationService.getLocations();
+        this.selectedSite = locations[0];
+        this.mapService.createMarkers(locations);
     }
+
     getTestSite() {
-        throw new Error('Method not implemented.');
+        this.dataService.getSelectedSiteData(this.selectedSite.siteId);
     }
-    getBadData() {
-        throw new Error('Method not implemented.');
+
+    pollServer() {
+        this.dataService.pollForNewData();
     }
+
+    addBadData() {
+        this.dataService.addBadData();
+    }
+
     toggleAlert() {
-        throw new Error('Method not implemented.');
+        this.dataService.toggleAlertStatus();
     }
 }

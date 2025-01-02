@@ -2,19 +2,54 @@ import { Injectable } from '@angular/core';
 
 import {
     map,
-    circle,
     latLng,
     marker,
-    polygon,
     tileLayer,
     control,
     Map,
+    LatLngExpression,
+    LayerGroup,
 } from 'leaflet';
+
+import { MapLocation } from '../../../../rainwater-types/site.model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class MapService {
+    map!: Map;
+
+    flyToZoom = 18;
+
+    private baseLayers = {
+        'Open Street Map': tileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            { maxZoom: 18, attribution: '...' }
+        ),
+        'OSM Humanitarian': tileLayer(
+            'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+            { maxZoom: 18, attribution: '...' }
+        ),
+        'OSM Mapnik': tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '...',
+        }),
+        None: tileLayer(''),
+    };
+
+    private baseMaps = {
+        'Open Street Map': this.baseLayers['Open Street Map'],
+        'OSM Humanitarian': this.baseLayers['OSM Humanitarian'],
+        'OSM Mapnik': this.baseLayers['OSM Mapnik'],
+        None: this.baseLayers['None'],
+    };
+
+    private overlayMaps = {
+        Markers: new LayerGroup(),
+    };
+
+    private siteMarkerIds: string[] = [];
+
     constructor() {}
 
     createMap(elementId: string) {
@@ -27,71 +62,36 @@ export class MapService {
             center: latLng(dLat, dLng),
         };
 
-        const mapInstance = map(elementId, options);
+        this.map = map(elementId, options);
 
-        const baseLayers = {
-            'Open Street Map': tileLayer(
-                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                { maxZoom: 18, attribution: '...' }
-            ).addTo(mapInstance),
-            'OSM Humanitarian': tileLayer(
-                'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-                { maxZoom: 18, attribution: '...' }
-            ),
-            'OSM Mapnik': tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: '...',
-            }),
-            None: tileLayer(''),
-        };
-        const featureLayers = {
-            'Big Circle': circle([46.95, -122], { radius: 5000 }),
-            'Big Square': polygon([
-                [46.8, -121.55],
-                [46.9, -121.55],
-                [46.9, -121.7],
-                [46.8, -121.7],
-            ]),
-            marker: marker([46.95, -122], {
+        this.baseMaps['Open Street Map'].addTo(this.map);
+
+        control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
+    }
+
+    createMarkers(locations: MapLocation[]) {
+        for (let location of locations) {
+            // no leaflet id until element is created so tracking site ids
+            // to prevent duplicate markers
+            if (this.siteMarkerIds.includes(location.siteId)) {
+                continue;
+            }
+
+            const site = marker([location.lat, location.lng], {
                 title: 'awesome marker!',
                 autoPan: true,
                 draggable: true,
-            }).bindPopup('I am bound!'),
-        };
-
-        const baseMaps = {
-            'Open Street Map': baseLayers['Open Street Map'],
-            'OSM Humanitarian': baseLayers['OSM Humanitarian'],
-            'OSM Mapnik': baseLayers['OSM Mapnik'],
-            None: baseLayers['None'],
-        };
-
-        const overlayMaps = {
-            'Big Circle': featureLayers['Big Circle'],
-            'Big Square': featureLayers['Big Square'],
-            Marker: featureLayers['marker'],
-        };
-
-        const layerControl = control
-            .layers(baseMaps, overlayMaps)
-            .addTo(mapInstance);
-
-        return mapInstance;
+            }).bindPopup(`Site Id: ${location.siteId}`);
+            if (location.icon) {
+                site.setIcon(location.icon);
+            }
+            site.addTo(this.overlayMaps['Markers']);
+            this.siteMarkerIds.push(location.siteId);
+        }
+        this.overlayMaps['Markers'].addTo(this.map);
     }
 
-    createMarkers(locations: any[], map: Map | undefined) {
-        if (!map) {
-            console.log('undefined map element!');
-            return;
-        }
-        console.log('creating markers for: ', locations);
-        for (let location of locations) {
-            marker([location.lat, location.lng], {
-                title: 'awesome marker!',
-                autoPan: true,
-            })
-                .bindPopup(`SiteId: ${location.siteId}`)
-                .addTo(map);
-        }
+    flyTo(latLng: LatLngExpression) {
+        this.map.flyTo(latLng, this.flyToZoom);
     }
 }

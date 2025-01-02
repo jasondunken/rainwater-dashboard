@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { Subscription } from 'rxjs';
 
-import { DataImportService } from '../../../services/data-import.service';
+import { DataService } from '../../../services/data.service';
 
 @Component({
     selector: 'app-alert',
@@ -16,7 +16,7 @@ export class AlertComponent implements OnDestroy {
 
     showAlert: boolean = false;
 
-    constructor(private dataService: DataImportService) {
+    constructor(private dataService: DataService) {
         this.alertStatus = this.dataService
             .getAlertStatus()
             .subscribe((status) => {

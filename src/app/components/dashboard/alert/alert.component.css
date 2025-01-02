@@ -9,3 +9,10 @@
     height: 32px;
     content: url("../../../../assets/res/siren_bw.png");
 }
+
+#alert-container {
+    display: grid;
+    place-content: center;
+    height: 100%;
+    padding-right: 4px;
+}

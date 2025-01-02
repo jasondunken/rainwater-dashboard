@@ -27,14 +27,7 @@ export class AppComponent {
 
     locations: any;
 
-    constructor(
-        private dataService: DataImportService,
-        private locationService: LocationService
-    ) {
-        this.locationService.getLocations().subscribe((response) => {
-            console.log('locations: ', response);
-        });
-    }
+    constructor(private dataService: DataImportService) {}
 
     getTestData() {
         this.dataService.getTestData().subscribe();

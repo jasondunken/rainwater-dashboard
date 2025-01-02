@@ -1,15 +1,11 @@
 import { DestroyRef, inject, Injectable, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, Observer, Subject, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment.development';
 
-import {
-    DataRow,
-    SiteObj,
-    SiteInformation,
-} from '../../../../rainwater-types/site.model';
+import { SiteObj } from '../../../../rainwater-types/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -17,10 +13,7 @@ import {
 export class DataImportService {
     private destroyRef = inject(DestroyRef);
 
-    siteData: SiteObj | undefined = undefined;
-
-    private alertSubject = new Subject<any>();
-    showBadDataAlert = false;
+    siteData!: SiteObj;
 
     constructor(private http: HttpClient) {
         this.getTestData().subscribe();
@@ -51,12 +44,11 @@ export class DataImportService {
         return this.http.get(environment.API_URL + 'data/test-data/').pipe(
             tap((data) => {
                 this.siteData = data as SiteObj;
-                console.log('returned siteObj: ', this.siteData);
             })
         );
     }
 
-    getSelectedSite(): SiteObj | undefined {
+    getSelectedSite(): SiteObj {
         return this.siteData;
     }
 
@@ -64,12 +56,7 @@ export class DataImportService {
         return this.http.get(environment.API_URL + 'data/');
     }
 
-    getAlertStatus(): Observable<any> {
-        return this.alertSubject.asObservable();
-    }
-
-    toggleAlertStatus(): void {
-        this.showBadDataAlert = !this.showBadDataAlert;
-        this.alertSubject.next(this.showBadDataAlert);
+    addBadData(): Observable<any> {
+        return this.http.get(environment.API_URL + 'data/test-data/bad');
     }
 }
