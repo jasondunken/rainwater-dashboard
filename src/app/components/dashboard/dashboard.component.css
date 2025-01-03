@@ -9,10 +9,13 @@
 .dashboard-content {
     background-color: darkcyan;
     height: 100%;
+    overflow-y: hidden;
+    display: grid;
+    grid-template-rows: 1fr auto;
 }
 
 .scroll-panel {
-    height: 30%;
+    height: 100%;
     overflow-y: auto;
     width: 100%;
     background-color: aqua;
