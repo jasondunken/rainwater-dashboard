@@ -4,7 +4,7 @@ import { Subject, Observable } from 'rxjs';
 
 import { DataImportService } from './data-import.service';
 
-import { SiteObj } from '../../../../rainwater-types/site.model';
+import { DataRow, SiteObj } from '../../../../rainwater-types/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -19,6 +19,8 @@ export class DataService implements OnDestroy {
     private pollTimer!: ReturnType<typeof setInterval>;
     POLL_INTERVAL = 7000; // ms
 
+    private rowsWithInvalidValues: string[] = [];
+
     constructor(private devData: DataImportService) {}
 
     pollForNewData(): void {
@@ -31,12 +33,35 @@ export class DataService implements OnDestroy {
     getNewData(): void {
         this.devData.getNewData().subscribe((newRows) => {
             if (newRows && this.currentSite) {
-                console.log('new data: ', newRows);
-                for (let row of newRows) {
-                    this.currentSite.rows?.push(row.data);
-                }
+                this.validateNewData(newRows);
             }
         });
+    }
+
+    validateNewData(rows: DataRow[]): void {
+        console.log('new data: ', rows);
+        for (let row of rows) {
+            if (this.hasMissingValues(row)) {
+                this.rowsWithInvalidValues.push(row.id);
+                console.log(
+                    'rows with invalid values: ',
+                    this.rowsWithInvalidValues
+                );
+                alert(`row has missing values: ${row.data}`);
+            }
+            this.currentSite.rows?.push(row.data);
+        }
+    }
+
+    hasMissingValues(row: DataRow): boolean {
+        // date, utc offset, and date w/offset are columns 0-2
+        // sensor values are columns 3-...
+        for (let i = 0; i < row.data.length; i++) {
+            if (row.data[i] == undefined) {
+                return true;
+            }
+        }
+        return false;
     }
 
     addBadData() {

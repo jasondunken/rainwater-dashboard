@@ -33,6 +33,7 @@ export class ControlsComponent {
 
     getTestSite() {
         this.dataService.getSelectedSiteData(this.selectedSite.siteId);
+        this.mapService.flyTo([this.selectedSite.lat, this.selectedSite.lng]);
     }
 
     pollServer() {

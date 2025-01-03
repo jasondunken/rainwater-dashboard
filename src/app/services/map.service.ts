@@ -92,6 +92,7 @@ export class MapService {
     }
 
     flyTo(latLng: LatLngExpression) {
+        this.map.invalidateSize(); // needed to correctly center location on map (because map is resized after map component is initialized).
         this.map.flyTo(latLng, this.flyToZoom);
     }
 }
