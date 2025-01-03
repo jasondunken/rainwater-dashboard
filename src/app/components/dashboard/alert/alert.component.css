@@ -1,13 +1,20 @@
 .alert {
     width: 32px;
     height: 32px;
-    content: url("../../../../assets/res/siren_color.png");
+    animation: alert-pulse 2s ease-in-out 0s infinite;
+    content: url("../../../../assets/res/siren_alert.png");
+}
+
+@keyframes alert-pulse {
+    to {
+        content: url("../../../../assets/res/siren_off.png");
+    }
 }
 
 .no-alert {
     width: 32px;
     height: 32px;
-    content: url("../../../../assets/res/siren_bw.png");
+    content: url("../../../../assets/res/siren_ok.png");
 }
 
 #alert-container {
