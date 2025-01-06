@@ -29,7 +29,8 @@ export class DataService implements OnDestroy {
     constructor(private devData: DataImportService) {}
 
     getSiteData(location: MapLocation): SiteObj {
-        return this.devData.getSiteData(location);
+        this.currentSite = this.devData.getSiteData(location);
+        return this.currentSite;
     }
 
     pollForNewData(): void {

@@ -19,22 +19,7 @@ export class ControlsComponent {
         icon: undefined,
     };
 
-    constructor(
-        private locationService: LocationService,
-        private mapService: MapService,
-        private dataService: DataService
-    ) {}
-
-    getLocations() {
-        const locations = this.locationService.getLocations();
-        this.selectedSite = locations[0];
-        this.mapService.createMarkers(locations);
-    }
-
-    getTestSite() {
-        this.dataService.getSelectedSiteData(this.selectedSite.siteId);
-        this.mapService.flyTo([this.selectedSite.lat, this.selectedSite.lng]);
-    }
+    constructor(private dataService: DataService) {}
 
     pollServer() {
         this.dataService.pollForNewData();
