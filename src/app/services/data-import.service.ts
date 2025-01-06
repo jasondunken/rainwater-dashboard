@@ -5,7 +5,7 @@ import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment.development';
 
-import { SiteObj } from '../../../../rainwater-types/site.model';
+import { MapLocation, SiteObj } from '../../../../rainwater-types/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -46,6 +46,10 @@ export class DataImportService {
                 this.siteData = data as SiteObj;
             })
         );
+    }
+
+    getSiteData(locaiton: MapLocation): SiteObj {
+        return this.siteData;
     }
 
     getSelectedSite(): SiteObj {

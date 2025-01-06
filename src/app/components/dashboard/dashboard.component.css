@@ -7,7 +7,6 @@
 }
 
 .dashboard-content {
-    background-color: darkcyan;
     height: 100%;
     overflow-y: hidden;
     display: grid;
@@ -18,7 +17,6 @@
     height: 100%;
     overflow-y: auto;
     width: 100%;
-    background-color: aqua;
 }
 
 table {

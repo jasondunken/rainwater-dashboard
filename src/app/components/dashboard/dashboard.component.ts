@@ -9,10 +9,17 @@ import { HeaderComponent } from './header/header.component';
 import { DataService } from '../../services/data.service';
 
 import { SiteObj } from '../../../../../rainwater-types/site.model';
+import { LocationSelectComponent } from './location-select/location-select.component';
+import { MapService } from '../../services/map.service';
 
 @Component({
     selector: 'app-dashboard',
-    imports: [CommonModule, SiteInfoComponent, HeaderComponent],
+    imports: [
+        CommonModule,
+        SiteInfoComponent,
+        HeaderComponent,
+        LocationSelectComponent,
+    ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
 })
@@ -23,7 +30,12 @@ export class DashboardComponent {
     private alertSubscription: Subscription;
     alertStatus: boolean = false;
 
-    constructor(private dataService: DataService) {
+    private markerSubscription: Subscription;
+
+    constructor(
+        private dataService: DataService,
+        private mapService: MapService
+    ) {
         this.alertSubscription = this.dataService
             .getAlertStatus()
             .subscribe((alertStatus) => {
@@ -32,13 +44,24 @@ export class DashboardComponent {
 
         this.siteSubscription = this.dataService
             .siteDataUpdated()
-            .subscribe((site) => {
-                this.selectedSite = site;
+            .subscribe((location) => {
+                this.siteSelected(location);
             });
+
+        this.markerSubscription = this.mapService
+            .getMarkerEventSubject()
+            .subscribe((location) => {
+                this.siteSelected(location);
+            });
+    }
+
+    siteSelected(location: any) {
+        this.selectedSite = this.dataService.getSiteData(location);
     }
 
     ngOnDestroy(): void {
         this.alertSubscription.unsubscribe();
         this.siteSubscription.unsubscribe();
+        this.markerSubscription.unsubscribe();
     }
 }

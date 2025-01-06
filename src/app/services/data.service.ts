@@ -4,7 +4,12 @@ import { Subject, Observable } from 'rxjs';
 
 import { DataImportService } from './data-import.service';
 
-import { DataRow, SiteObj } from '../../../../rainwater-types/site.model';
+import {
+    DataRow,
+    InvalidDataRow,
+    MapLocation,
+    SiteObj,
+} from '../../../../rainwater-types/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -19,9 +24,13 @@ export class DataService implements OnDestroy {
     private pollTimer!: ReturnType<typeof setInterval>;
     POLL_INTERVAL = 7000; // ms
 
-    private rowsWithInvalidValues: string[] = [];
+    private invalidValues: InvalidDataRow[] = [];
 
     constructor(private devData: DataImportService) {}
+
+    getSiteData(location: MapLocation): SiteObj {
+        return this.devData.getSiteData(location);
+    }
 
     pollForNewData(): void {
         this.pollTimer = setInterval(
@@ -41,27 +50,37 @@ export class DataService implements OnDestroy {
     validateNewData(rows: DataRow[]): void {
         console.log('new data: ', rows);
         for (let row of rows) {
-            if (this.hasMissingValues(row)) {
-                this.rowsWithInvalidValues.push(row.id);
-                console.log(
-                    'rows with invalid values: ',
-                    this.rowsWithInvalidValues
-                );
-                alert(`row has missing values: ${row.data}`);
+            const invalidValueIndeices: number[] = this.indexMissingValues(row);
+
+            if (invalidValueIndeices.length > 0) {
+                const invalidRow: InvalidDataRow = {
+                    id: row.id,
+                    data: row.data,
+                    invalidValueIndices: invalidValueIndeices,
+                };
+                this.invalidValues.push(invalidRow);
+                console.log('rows with invalid values: ', this.invalidValues);
+                // alert(`row has missing values: ${row.data}`);
+                this.showBadDataAlert = true;
+                this.alertSubject.next(this.showBadDataAlert);
             }
             this.currentSite.rows?.push(row.data);
         }
     }
 
-    hasMissingValues(row: DataRow): boolean {
+    indexMissingValues(row: DataRow): number[] {
         // date, utc offset, and date w/offset are columns 0-2
         // sensor values are columns 3-...
+
+        // CURRENTLY ONLY LOOKS FOR 'undefined' VALUES
+        // TODO: check for out of range or other non valid values
+        const invalidValuesIndices: number[] = [];
         for (let i = 0; i < row.data.length; i++) {
             if (row.data[i] == undefined) {
-                return true;
+                invalidValuesIndices.push(i);
             }
         }
-        return false;
+        return invalidValuesIndices;
     }
 
     addBadData() {

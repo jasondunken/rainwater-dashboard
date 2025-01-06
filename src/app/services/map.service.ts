@@ -12,6 +12,7 @@ import {
 } from 'leaflet';
 
 import { MapLocation } from '../../../../rainwater-types/site.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -50,6 +51,8 @@ export class MapService {
 
     private siteMarkerIds: string[] = [];
 
+    private markerSubscription = new Subject<any>();
+
     constructor() {}
 
     createMap(elementId: string) {
@@ -70,6 +73,10 @@ export class MapService {
     }
 
     createMarkers(locations: MapLocation[]) {
+        interface MarkerOptions extends L.MarkerOptions {
+            location?: MapLocation;
+        }
+
         for (let location of locations) {
             // no leaflet id until element is created so tracking site ids
             // to prevent duplicate markers
@@ -77,18 +84,36 @@ export class MapService {
                 continue;
             }
 
-            const site = marker([location.lat, location.lng], {
+            const markerOptions: MarkerOptions = {
+                location: location,
                 title: 'awesome marker!',
                 autoPan: true,
                 draggable: true,
-            }).bindPopup(`Site Id: ${location.siteId}`);
+            };
+
+            const site = marker(
+                [location.lat, location.lng],
+                markerOptions
+            ).bindPopup(`Site Id: ${location.siteId}`);
             if (location.icon) {
                 site.setIcon(location.icon);
             }
+
+            site.on('click', (event) => {
+                this.handleMarkerClick(event);
+            });
             site.addTo(this.overlayMaps['Markers']);
             this.siteMarkerIds.push(location.siteId);
         }
         this.overlayMaps['Markers'].addTo(this.map);
+    }
+
+    handleMarkerClick(event: any) {
+        this.markerSubscription.next(event.target.options.location);
+    }
+
+    getMarkerEventSubject(): Subject<any> {
+        return this.markerSubscription;
     }
 
     flyTo(latLng: LatLngExpression) {

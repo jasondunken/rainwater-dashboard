@@ -21,7 +21,7 @@ export class LocationService {
             .get(environment.API_URL + 'location/test-locations')
             .pipe(
                 tap((locations) => {
-                    this.locations = locations as MapLocation[];
+                    this.locations.push(...(locations as MapLocation[]));
                 })
             );
     }
