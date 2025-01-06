@@ -86,7 +86,7 @@ export class MapService {
 
             const markerOptions: MarkerOptions = {
                 location: location,
-                title: 'awesome marker!',
+                title: `Site Id: ${location.siteId}`,
                 autoPan: true,
                 draggable: true,
             };

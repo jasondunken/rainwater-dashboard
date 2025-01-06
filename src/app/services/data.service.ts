@@ -47,13 +47,11 @@ export class DataService implements OnDestroy {
                     this.currentSite.rows?.push(row.data);
                     if (row.invalidValueIndices.length > 0) {
                         this.invalidRows.push(row);
-                        console.log('invalid rows: ', this.invalidRows);
                         this.showBadDataAlert = true;
                         this.alertSubject.next(this.showBadDataAlert);
                     }
                 }
             }
-            console.log('currentSite: ', this.currentSite);
         });
     }
 

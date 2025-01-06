@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
 import { DataService } from '../../../services/data.service';
-import { LocationService } from '../../../services/location.service';
-import { MapService } from '../../../services/map.service';
 import { MapLocation } from '../../../../../../rainwater-types/site.model';
 
 @Component({
