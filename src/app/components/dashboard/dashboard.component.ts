@@ -11,6 +11,7 @@ import { DataService } from '../../services/data.service';
 import { MapService } from '../../services/map.service';
 
 import { SiteObj } from '../../../../../rainwater-types/site.model';
+import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
 
 @Component({
     selector: 'app-dashboard',
@@ -19,6 +20,7 @@ import { SiteObj } from '../../../../../rainwater-types/site.model';
         SiteInfoComponent,
         HeaderComponent,
         LocationSelectComponent,
+        ScrollToBottomDirective,
     ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
