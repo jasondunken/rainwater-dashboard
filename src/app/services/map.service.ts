@@ -9,6 +9,7 @@ import {
     Map,
     LatLngExpression,
     LayerGroup,
+    LatLng,
 } from 'leaflet';
 
 import { MapLocation } from '../../../../rainwater-types/site.model';
@@ -49,6 +50,9 @@ export class MapService {
         Markers: new LayerGroup(),
     };
 
+    private lastMapClick: LatLng = latLng(0, 0);
+    private mapClickSubject = new Subject<LatLng>();
+
     private siteMarkerIds: string[] = [];
 
     private markerSubscription = new Subject<any>();
@@ -66,6 +70,7 @@ export class MapService {
         };
 
         this.map = map(elementId, options);
+        this.map.on('click', (event) => this.handleMapClick(event));
 
         this.baseMaps['Open Street Map'].addTo(this.map);
 
@@ -94,10 +99,9 @@ export class MapService {
             const site = marker(
                 [location.lat, location.lng],
                 markerOptions
-            ).bindPopup(`Site Id: ${location.siteId}`);
-            if (location.icon) {
-                site.setIcon(location.icon);
-            }
+            ).bindPopup(
+                `Site Id: ${location.siteId}<br/>Sond Id: ${location.sondeId}`
+            );
 
             site.on('click', (event) => {
                 this.handleMarkerClick(event);
@@ -106,6 +110,15 @@ export class MapService {
             this.siteMarkerIds.push(location.siteId);
         }
         this.overlayMaps['Markers'].addTo(this.map);
+    }
+
+    handleMapClick(event: any): void {
+        this.lastMapClick = event.latlng;
+        this.mapClickSubject.next(this.lastMapClick);
+    }
+
+    getMapClick(): Subject<any> {
+        return this.mapClickSubject;
     }
 
     handleMarkerClick(event: any) {

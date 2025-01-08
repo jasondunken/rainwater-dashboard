@@ -10,13 +10,6 @@ import { MapLocation } from '../../../../../../rainwater-types/site.model';
     styleUrl: './controls.component.css',
 })
 export class ControlsComponent {
-    selectedSite: MapLocation = {
-        siteId: '0',
-        lat: 0,
-        lng: 0,
-        icon: undefined,
-    };
-
     constructor(private dataService: DataService) {}
 
     pollServer() {

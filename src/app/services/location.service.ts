@@ -33,4 +33,12 @@ export class LocationService {
     getLocations(): MapLocation[] {
         return this.locations;
     }
+
+    addLocation(location: MapLocation): void {
+        this.http
+            .post(environment.API_URL + 'location', location)
+            .subscribe((res) => {
+                console.log('res: ', res);
+            });
+    }
 }

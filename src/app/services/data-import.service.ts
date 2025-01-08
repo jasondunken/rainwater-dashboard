@@ -1,11 +1,11 @@
 import { DestroyRef, inject, Injectable, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment.development';
 
-import { MapLocation, SiteObj } from '../../../../rainwater-types/site.model';
+import { MapLocation } from '../../../../rainwater-types/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -13,11 +13,7 @@ import { MapLocation, SiteObj } from '../../../../rainwater-types/site.model';
 export class DataImportService {
     private destroyRef = inject(DestroyRef);
 
-    siteData!: SiteObj;
-
     constructor(private http: HttpClient) {
-        this.getTestData().subscribe();
-
         // Here is an example of effect w/ cleanup
         effect((onCleanup) => {
             const timer = setTimeout(() => {
@@ -40,20 +36,10 @@ export class DataImportService {
     }
     // end of example
 
-    getTestData(): Observable<any> {
-        return this.http.get(environment.API_URL + 'data/test-data/').pipe(
-            tap((data) => {
-                this.siteData = data as SiteObj;
-            })
+    getSiteData(location: MapLocation): Observable<any> {
+        return this.http.get(
+            environment.API_URL + `data/test-data/${location.siteId}`
         );
-    }
-
-    getSiteData(locaiton: MapLocation): SiteObj {
-        return this.siteData;
-    }
-
-    getSelectedSite(): SiteObj {
-        return this.siteData;
     }
 
     getNewData(): Observable<any> {
@@ -61,6 +47,7 @@ export class DataImportService {
     }
 
     addBadData(): Observable<any> {
-        return this.http.get(environment.API_URL + 'data/test-data/bad');
+        console.log('client add bad data!');
+        return this.http.get(environment.API_URL + 'data/add-bad');
     }
 }

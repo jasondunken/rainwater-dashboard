@@ -6,12 +6,14 @@ import { Subscription } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
 import { SiteInfoComponent } from './site-info/site-info.component';
 import { LocationSelectComponent } from './location-select/location-select.component';
+import { LocationAddComponent } from './location-add/location-add.component';
 
-import { DataService } from '../../services/data.service';
+import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
+
 import { MapService } from '../../services/map.service';
+import { DataService } from '../../services/data.service';
 
 import { SiteObj } from '../../../../../rainwater-types/site.model';
-import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
 
 @Component({
     selector: 'app-dashboard',
@@ -20,6 +22,7 @@ import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.direc
         SiteInfoComponent,
         HeaderComponent,
         LocationSelectComponent,
+        LocationAddComponent,
         ScrollToBottomDirective,
     ],
     templateUrl: './dashboard.component.html',
@@ -51,8 +54,10 @@ export class DashboardComponent {
     }
 
     siteSelected(location: any) {
-        this.selectedSite = this.dataService.getSiteData(location);
-        this.mapService.flyTo([location.lat, location.lng]);
+        this.dataService.getSiteData(location).subscribe((site) => {
+            this.selectedSite = site;
+            this.mapService.flyTo([location.lat, location.lng]);
+        });
     }
 
     ngOnDestroy(): void {

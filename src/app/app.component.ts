@@ -3,8 +3,6 @@ import { Component, EventEmitter, Input, model, Output } from '@angular/core';
 import { MapComponent } from './components/map/map/map.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { DataImportService } from './services/data-import.service';
-import { LocationService } from './services/location.service';
 import { ControlsComponent } from './components/dev/controls/controls.component';
 
 @Component({
@@ -24,12 +22,4 @@ export class AppComponent {
     // end of example
 
     title = 'rainwater-dashboard';
-
-    locations: any;
-
-    constructor(private dataService: DataImportService) {}
-
-    getTestData() {
-        this.dataService.getTestData().subscribe();
-    }
 }

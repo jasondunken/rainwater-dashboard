@@ -19,6 +19,9 @@
         </table>
     </div>
     } @else {
-    <app-location-select (selectedLocation)="siteSelected($event)" />
+    <div id="location-select">
+        <app-location-select (selectedLocation)="siteSelected($event)" />
+        <app-location-add />
+    </div>
     }
 </div>
