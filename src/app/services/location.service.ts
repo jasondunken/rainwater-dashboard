@@ -6,15 +6,15 @@ import { environment } from '../../environments/environment.development';
 
 import { MapService } from './map.service';
 
-import { Location } from '../../../../rainwater-server/src/models/site.model';
+import { Location } from '../../../../rainwater-server/src/location/location.entity';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LocationService {
-    private locations: Location[] = [];
-
-    constructor(private http: HttpClient, private mapService: MapService) {}
+    constructor(private http: HttpClient, private mapService: MapService) {
+        this.getLocations().subscribe();
+    }
 
     getLocations(): Observable<any> {
         return this.http.get(environment.API_URL + 'locations').pipe(

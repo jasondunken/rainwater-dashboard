@@ -20,6 +20,12 @@ export class SiteService {
         return this.http.post(environment.API_URL + 'sites', site);
     }
 
+    getSiteByLocationId(locationId: string): Observable<any> {
+        return this.http.get(
+            `${environment.API_URL}sites/location/${locationId}`
+        );
+    }
+
     getSiteMetadata(siteId: string): Observable<any> {
         return this.http.get(`${environment.API_URL}sites/${siteId}`);
     }

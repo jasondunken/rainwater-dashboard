@@ -54,11 +54,18 @@ export class DashboardComponent {
         this.markerSubscription = this.mapService
             .getMarkerEventSubject()
             .subscribe((location) => {
-                this.siteSelected(location);
+                this.locationSelected(location.id);
             });
     }
 
+    locationSelected(locationId: string) {
+        this.siteService.getSiteByLocationId(locationId).subscribe((site) => {
+            this.selectedSite = site;
+        });
+    }
+
     siteSelected(siteId: any) {
+        console.log('site:', siteId);
         this.siteService.getSiteMetadata(siteId).subscribe((site) => {
             this.selectedSite = site;
 

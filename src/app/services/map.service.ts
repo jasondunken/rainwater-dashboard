@@ -12,7 +12,7 @@ import {
     LatLng,
 } from 'leaflet';
 
-import { Location } from '../../../../rainwater-server/src/models/site.model';
+import { Location } from '../../../../rainwater-server/src/location/location.entity';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -85,27 +85,26 @@ export class MapService {
         for (let location of locations) {
             // no leaflet id until element is created so tracking site ids
             // to prevent duplicate markers
-            if (this.siteMarkerIds.includes('1')) {
+            if (this.siteMarkerIds.includes(location.id)) {
                 continue;
             }
 
             const markerOptions: MarkerOptions = {
                 location: location,
-                title: `Site Id: ${'1'}`,
+                title: `Location: ${location.name}`,
                 autoPan: true,
-                draggable: true,
             };
 
-            const site = marker(
+            const locationMarker = marker(
                 [location.lat, location.lng],
                 markerOptions
-            ).bindPopup(`Site Id: ${'1'}<br/>Sond Id: ${'1'}`);
+            ).bindPopup(`Location: ${location.name}`);
 
-            site.on('click', (event) => {
+            locationMarker.on('click', (event) => {
                 this.handleMarkerClick(event);
             });
-            site.addTo(this.overlayMaps['Markers']);
-            this.siteMarkerIds.push('1');
+            locationMarker.addTo(this.overlayMaps['Markers']);
+            this.siteMarkerIds.push(location.id);
         }
         this.overlayMaps['Markers'].addTo(this.map);
     }
