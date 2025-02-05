@@ -13,7 +13,7 @@ import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.direc
 import { MapService } from '../../services/map.service';
 import { DataService } from '../../services/data.service';
 
-import { SiteObj } from '../../../../../rainwater-types/site.model';
+import { SiteObj } from '../../../../../rainwater-server/src/models/site.model';
 
 @Component({
     selector: 'app-dashboard',

@@ -6,9 +6,10 @@ import { DataImportService } from './data-import.service';
 
 import {
     DataRow,
-    MapLocation,
     SiteObj,
-} from '../../../../rainwater-types/site.model';
+    Sonde,
+    Location,
+} from '../../../../rainwater-server/src/models/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class DataService implements OnDestroy {
     POLL_INTERVAL = 7000; // ms
 
     selectedSite!: SiteObj;
+    selectedSonde!: Sonde;
 
     private alertSubject = new Subject<any>();
     showBadDataAlert = false;
@@ -26,7 +28,7 @@ export class DataService implements OnDestroy {
 
     constructor(private devData: DataImportService) {}
 
-    getSiteData(location: MapLocation): Observable<any> {
+    getSiteData(location: Location): Observable<any> {
         return this.devData.getSiteData(location).pipe(
             tap((site) => {
                 this.selectedSite = site as SiteObj;

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { DataService } from '../../../services/data.service';
-import { MapLocation } from '../../../../../../rainwater-types/site.model';
 
 @Component({
     selector: 'app-controls',

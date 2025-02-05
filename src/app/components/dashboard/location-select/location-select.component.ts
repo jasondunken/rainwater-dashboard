@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LocationService } from '../../../services/location.service';
 
-import { MapLocation } from '../../../../../../rainwater-types/site.model';
+import { Location } from '../../../../../../rainwater-server/src/models/site.model';
 
 @Component({
     selector: 'app-location-select',
@@ -12,9 +12,9 @@ import { MapLocation } from '../../../../../../rainwater-types/site.model';
     styleUrl: './location-select.component.css',
 })
 export class LocationSelectComponent {
-    @Output() selectedLocation = new EventEmitter<MapLocation>();
+    @Output() selectedLocation = new EventEmitter<Location>();
 
-    locations!: MapLocation[];
+    locations!: Location[];
 
     constructor(private locationService: LocationService) {
         this.locations = this.locationService.getLocations();
@@ -23,7 +23,7 @@ export class LocationSelectComponent {
     selectLocation(event: any): void {
         this.selectedLocation.emit(
             this.locations.find((location) => {
-                return location.siteId == event.target.value;
+                return '1' == event.target.value;
             })
         );
     }

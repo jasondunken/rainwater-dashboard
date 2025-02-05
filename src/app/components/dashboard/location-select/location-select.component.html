@@ -2,8 +2,8 @@ Select a site
 <select (change)="selectLocation($event)">
     <option selected disabled hidden>Select a location</option>
     @for (location of locations; track $index) {
-    <option [value]="location.siteId">
-        {{ location.siteId }}
+    <option [value]="1">
+        {{ "1" }}
     </option>
     }
 </select>

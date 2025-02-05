@@ -12,7 +12,7 @@ import {
     LatLng,
 } from 'leaflet';
 
-import { MapLocation } from '../../../../rainwater-types/site.model';
+import { Location } from '../../../../rainwater-server/src/models/site.model';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -77,21 +77,21 @@ export class MapService {
         control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
     }
 
-    createMarkers(locations: MapLocation[]) {
+    createMarkers(locations: Location[]) {
         interface MarkerOptions extends L.MarkerOptions {
-            location?: MapLocation;
+            location?: Location;
         }
 
         for (let location of locations) {
             // no leaflet id until element is created so tracking site ids
             // to prevent duplicate markers
-            if (this.siteMarkerIds.includes(location.siteId)) {
+            if (this.siteMarkerIds.includes('1')) {
                 continue;
             }
 
             const markerOptions: MarkerOptions = {
                 location: location,
-                title: `Site Id: ${location.siteId}`,
+                title: `Site Id: ${'1'}`,
                 autoPan: true,
                 draggable: true,
             };
@@ -99,15 +99,13 @@ export class MapService {
             const site = marker(
                 [location.lat, location.lng],
                 markerOptions
-            ).bindPopup(
-                `Site Id: ${location.siteId}<br/>Sond Id: ${location.sondeId}`
-            );
+            ).bindPopup(`Site Id: ${'1'}<br/>Sond Id: ${'1'}`);
 
             site.on('click', (event) => {
                 this.handleMarkerClick(event);
             });
             site.addTo(this.overlayMaps['Markers']);
-            this.siteMarkerIds.push(location.siteId);
+            this.siteMarkerIds.push('1');
         }
         this.overlayMaps['Markers'].addTo(this.map);
     }

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment.development';
 
-import { MapLocation } from '../../../../rainwater-types/site.model';
+import { Location } from '../../../../rainwater-server/src/models/site.model';
 
 @Injectable({
     providedIn: 'root',
@@ -36,10 +36,14 @@ export class DataImportService {
     }
     // end of example
 
-    getSiteData(location: MapLocation): Observable<any> {
+    getSiteData(location: Location): Observable<any> {
         return this.http.get(
-            environment.API_URL + `data/test-data/${location.siteId}`
+            environment.API_URL + `data/test-data/${location}`
         );
+    }
+
+    getSondeData(id: string): Observable<any> {
+        return this.http.get(`${environment.API_URL}/data/${id}`);
     }
 
     getNewData(): Observable<any> {
