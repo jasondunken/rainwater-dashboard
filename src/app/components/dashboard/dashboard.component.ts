@@ -4,16 +4,19 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { HeaderComponent } from './header/header.component';
+import { SiteCreateComponent } from './site-create/site-create.component';
+import { SiteSelectComponent } from './site-select/site-select.component';
 import { SiteInfoComponent } from './site-info/site-info.component';
-import { LocationSelectComponent } from './location-select/location-select.component';
-import { LocationAddComponent } from './location-add/location-add.component';
 
 import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
 
 import { MapService } from '../../services/map.service';
 import { DataService } from '../../services/data.service';
+import { SiteService } from '../../services/site.service';
 
+import { Location } from '../../../../../rainwater-server/src/models/site.model';
 import { SiteObj } from '../../../../../rainwater-server/src/models/site.model';
+import { LocationService } from '../../services/location.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -21,8 +24,8 @@ import { SiteObj } from '../../../../../rainwater-server/src/models/site.model';
         CommonModule,
         SiteInfoComponent,
         HeaderComponent,
-        LocationSelectComponent,
-        LocationAddComponent,
+        SiteSelectComponent,
+        SiteCreateComponent,
         ScrollToBottomDirective,
     ],
     templateUrl: './dashboard.component.html',
@@ -38,6 +41,8 @@ export class DashboardComponent {
 
     constructor(
         private dataService: DataService,
+        private siteService: SiteService,
+        private locationService: LocationService,
         private mapService: MapService
     ) {
         this.alertSubscription = this.dataService
@@ -53,10 +58,15 @@ export class DashboardComponent {
             });
     }
 
-    siteSelected(location: any) {
-        this.dataService.getSiteData(location).subscribe((site) => {
+    siteSelected(siteId: any) {
+        this.siteService.getSiteMetadata(siteId).subscribe((site) => {
             this.selectedSite = site;
-            this.mapService.flyTo([location.lat, location.lng]);
+
+            this.locationService
+                .getLocation(site.locationId)
+                .subscribe((location: Location) => {
+                    this.mapService.flyTo([location.lat, location.lng]);
+                });
         });
     }
 

@@ -20,8 +20,9 @@
     </div>
     } @else {
     <div id="location-select">
-        <app-location-select (selectedLocation)="siteSelected($event)" />
-        <app-location-add />
+        <app-site-select (selectedSite)="siteSelected($event)" />
+        or Create a New Site<br /><br />
+        <app-site-create (siteCreated)="siteSelected($event)" />
     </div>
     }
 </div>

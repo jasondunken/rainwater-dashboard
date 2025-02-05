@@ -1,0 +1,15 @@
+<form [formGroup]="addSiteForm" (keyup.enter)="createSite()">
+    <label for="name">Site Name (required)</label>
+    <input type="text" name="name" formControlName="name" /><br />
+    Enter coordinates or click the map
+    <div>
+        <label for="lat">Latitude (required)</label>
+        <input type="number" name="lat" formControlName="lat" /><br />
+        <label for="lng">Longitude (required)</label>
+        <input type="number" name="lng" formControlName="lng" /><br />
+    </div>
+    @if (statusMessage.length) {
+    <div>{{ statusMessage }}</div>
+    }
+    <button type="button" (click)="createSite()">Create New Site</button>
+</form>

@@ -5,11 +5,12 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
+import { LatLng, LatLngExpression } from 'leaflet';
 
 import { LocationService } from '../../../services/location.service';
 import { MapService } from '../../../services/map.service';
-import { LatLng, LatLngExpression } from 'leaflet';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-location-add',
