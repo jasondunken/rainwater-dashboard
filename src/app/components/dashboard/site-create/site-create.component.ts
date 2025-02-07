@@ -18,6 +18,8 @@ import { LatLng } from 'leaflet';
 import { SiteService } from '../../../services/site.service';
 import { MapService } from '../../../services/map.service';
 
+import { Location } from '../../../../../../rainwater-server/src/location/location.entity';
+
 @Component({
     selector: 'app-site-create',
     imports: [ReactiveFormsModule],
@@ -63,6 +65,13 @@ export class SiteCreateComponent implements OnInit, OnDestroy {
                 .createSite(this.addSiteForm.value)
                 .subscribe((res) => {
                     if (res.id) {
+                        const newLocation: Location = {
+                            id: res.id,
+                            name: this.addSiteForm.get('name')!.value,
+                            lat: this.addSiteForm.get('lat')!.value,
+                            lng: this.addSiteForm.get('lng')!.value,
+                        };
+                        this.mapService.createMarkers([newLocation]);
                         this.siteCreated.emit(res.id);
                     } else {
                         this.statusMessage = 'Failed to create site!';
