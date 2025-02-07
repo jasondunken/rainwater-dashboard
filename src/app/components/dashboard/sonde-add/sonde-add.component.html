@@ -1,0 +1,10 @@
+<form [formGroup]="addSondeForm" (keyup.enter)="addSonde()">
+    <div>
+        <label for="sondeID">Sonde ID (required)</label>
+        <input type="text" name="sondeID" formControlName="sondeID" />
+        <button type="button" (click)="addSonde()">Add Sonde to Site</button>
+    </div>
+    @if (statusMessage.length) {
+    <div>{{ statusMessage }}</div>
+    }
+</form>

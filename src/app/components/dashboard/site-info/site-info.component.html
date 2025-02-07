@@ -1,30 +1,14 @@
 <h2>Site Info</h2>
-@if (siteInfo) {
-<h3>
-    Site code: {{ siteInfo.SiteCode || "unknown code" }} Site name:
-    {{ siteInfo.SiteName || "unknown name" }}
-</h3>
-<p>{{ siteInfo.SiteDescription.SiteNotes || "unknown description" }}</p>
-<p>
-    LatLng:
-    {{
-        siteInfo.SiteDescription.Latitude +
-            ":" +
-            siteInfo.SiteDescription.Longitude || "unknown LatLng"
-    }}
-</p>
-<p>
-    Elevation: {{ siteInfo.SiteDescription.Elevation || "unknown elevation" }}
-</p>
-<p>Site Type: {{ siteInfo.SiteDescription.SiteType || "unknown site type" }}</p>
-<p>
-    Vertical Datum:
-    {{ siteInfo.SiteDescription.VerticalDatum || "unknown vertical datum" }}
-</p>
+@if (site) {
+<h3>Name: {{ site.name || "unknown name" }}</h3>
+<label for="sondes">Sondes</label>
 <select>
-    <option selected disabled hidden>Select a variable to see details</option>
-    @for (option of siteInfo.VariableInfo; track $index) {
-    <option>{{ option.VariableName }}</option>
+    <option value="null" selected disabled hidden>
+        select a sonde to see details
+    </option>
+    @for (sonde of site.sondes; track $index) {
+    <option value="{{ sonde }}">{{ sonde }}</option>
     }
 </select>
+<app-sonde-add [site]="site"></app-sonde-add>
 }

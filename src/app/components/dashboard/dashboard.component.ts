@@ -8,15 +8,15 @@ import { SiteCreateComponent } from './site-create/site-create.component';
 import { SiteSelectComponent } from './site-select/site-select.component';
 import { SiteInfoComponent } from './site-info/site-info.component';
 
-import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
+//import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
 
 import { MapService } from '../../services/map.service';
 import { DataService } from '../../services/data.service';
 import { SiteService } from '../../services/site.service';
+import { LocationService } from '../../services/location.service';
 
 import { Location } from '../../../../../rainwater-server/src/models/site.model';
-import { SiteObj } from '../../../../../rainwater-server/src/models/site.model';
-import { LocationService } from '../../services/location.service';
+import { Site } from '../../../../../rainwater-server/src/site/site.entity';
 
 @Component({
     selector: 'app-dashboard',
@@ -26,13 +26,13 @@ import { LocationService } from '../../services/location.service';
         HeaderComponent,
         SiteSelectComponent,
         SiteCreateComponent,
-        ScrollToBottomDirective,
+        //ScrollToBottomDirective,
     ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
-    selectedSite: SiteObj | undefined;
+    selectedSite: Site | undefined;
 
     private alertSubscription: Subscription;
     alertStatus: boolean = false;
@@ -65,8 +65,7 @@ export class DashboardComponent {
     }
 
     siteSelected(siteId: any) {
-        console.log('site:', siteId);
-        this.siteService.getSiteMetadata(siteId).subscribe((site) => {
+        this.siteService.getSite(siteId).subscribe((site) => {
             this.selectedSite = site;
 
             this.locationService
