@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Subscription } from 'rxjs';
@@ -31,8 +31,9 @@ import { Site } from '../../../../../rainwater-server/src/site/site.entity';
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
     selectedSite: Site | undefined;
+    sites: Site[] = [];
 
     private alertSubscription: Subscription;
     alertStatus: boolean = false;
@@ -56,6 +57,12 @@ export class DashboardComponent {
             .subscribe((location) => {
                 this.locationSelected(location.id);
             });
+    }
+
+    ngOnInit() {
+        this.siteService.getSites().subscribe((sites) => {
+            this.sites = sites;
+        });
     }
 
     locationSelected(locationId: string) {

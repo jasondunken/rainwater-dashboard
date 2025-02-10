@@ -4,7 +4,8 @@
 <label for="sondes">Sondes</label>
 <select>
     <option value="null" selected disabled hidden>
-        select a sonde to see details
+        @if (site.sondes.length == 0) { Site has no sondes, please add at least
+        one. } @else { select a sonde to see details }
     </option>
     @for (sonde of site.sondes; track $index) {
     <option value="{{ sonde }}">{{ sonde }}</option>

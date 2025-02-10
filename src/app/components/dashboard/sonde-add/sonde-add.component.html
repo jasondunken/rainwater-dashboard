@@ -4,7 +4,7 @@
         <input type="text" name="sondeID" formControlName="sondeID" />
         <button type="button" (click)="addSonde()">Add Sonde to Site</button>
     </div>
-    @if (statusMessage.length) {
-    <div>{{ statusMessage }}</div>
+    @if (statusMessage().length) {
+    <div>{{ statusMessage() }}</div>
     }
 </form>

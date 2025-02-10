@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import {
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -8,8 +8,8 @@ import {
 
 import { SiteService } from '../../../services/site.service';
 
-import { AddSondeDTO } from '../../../../../../rainwater-server/src/models/site.model';
 import { Site } from '../../../../../../rainwater-server/src/site/site.entity';
+import { AddSondeDTO } from '../../../../../../rainwater-server/src/models/site.model';
 
 @Component({
     selector: 'app-sonde-add',
@@ -19,11 +19,9 @@ import { Site } from '../../../../../../rainwater-server/src/site/site.entity';
 })
 export class SondeAddComponent implements OnInit {
     @Input() site!: Site;
-    @Output() sondeAdded = new EventEmitter<string>();
+    statusMessage = signal<string>('');
 
     addSondeForm!: UntypedFormGroup;
-
-    statusMessage = '';
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -38,20 +36,23 @@ export class SondeAddComponent implements OnInit {
 
     addSonde() {
         if (this.addSondeForm.valid) {
+            this.statusMessage.set('');
             const addSondeInfo: AddSondeDTO = {
                 siteId: this.site.id,
                 sondeId: this.addSondeForm.value.sondeID,
             };
             this.siteService.addSonde(addSondeInfo).subscribe((res) => {
+                console.log('res:', res);
                 if (res.message) {
-                    this.statusMessage = res.message;
+                    console.log('res.message:', res);
+                    this.statusMessage.set(res.message);
                 } else {
-                    this.statusMessage = 'Sonde added successfully!';
-                    this.sondeAdded.emit(this.addSondeForm.value.sondeID);
+                    console.log('res.no-message:', res);
+                    this.statusMessage.set('Sonde added successfully!');
                 }
             });
         } else {
-            this.statusMessage = 'All form fields are required!';
+            this.statusMessage.set('Sonde ID is required!');
         }
     }
 }

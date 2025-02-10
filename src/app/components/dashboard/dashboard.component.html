@@ -20,8 +20,13 @@
     </div> -->
     } @else {
     <div id="location-select">
+        @if (sites && sites.length > 0) {
         <app-site-select (selectedSite)="siteSelected($event)" />
-        or Create a New Site<br /><br />
+        <br /><br />or Create a New Site<br /><br />
+        } @else {
+        <div class="no-sites">No sites found. Please create a new site.</div>
+        <br />
+        }
         <app-site-create (siteCreated)="siteSelected($event)" />
     </div>
     }

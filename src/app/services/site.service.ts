@@ -46,12 +46,6 @@ export class SiteService {
             environment.API_URL + 'sites/sonde',
             addInfo
         );
-        // .pipe(
-        //     tap((res) => {
-        //         if (res.siteId) return this.parseSiteJSON(res);
-        //         else return res;
-        //     })
-        // );
     }
 
     parseSitesJSON(sites: Site[]): Site[] {
