@@ -1,15 +1,17 @@
-<br />or Add a new location<br />
-<form [formGroup]="addLocationForm" (keyup.enter)="addLocation()">
-    <label for="name">Site Name (required)</label>
-    <input type="text" name="name" formControlName="siteId" />
-    <label for="sondId">Sond ID (required)</label>
-    <input type="text" name="sindId" formControlName="sondId" />
-    Enter coordinates or click the map
-    <div>
-        <label for="lat">Latitude</label>
-        <input type="number" name="lat" formControlName="lat" />
-        <label for="lng">Longitude</label>
-        <input type="number" name="lng" formControlName="lng" />
-    </div>
-    <button type="button" (click)="addLocation()">Add Location</button>
-</form>
+<div class="container">
+    <br />or Add a new location<br />
+    <form [formGroup]="addLocationForm" (keyup.enter)="addLocation()">
+        <label for="name">Site Name (required)</label>
+        <input type="text" name="name" formControlName="siteId" />
+        <label for="sondId">Sond ID (required)</label>
+        <input type="text" name="sindId" formControlName="sondId" />
+        Enter coordinates or click the map
+        <div>
+            <label for="lat">Latitude</label>
+            <input type="number" name="lat" formControlName="lat" />
+            <label for="lng">Longitude</label>
+            <input type="number" name="lng" formControlName="lng" />
+        </div>
+        <button type="button" (click)="addLocation()">Add Location</button>
+    </form>
+</div>

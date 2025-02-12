@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment.development';
 
 import {
+    Site,
+    SiteMetadata,
+} from '../../../../rainwater-server/src/site/site.entity';
+
+import {
     AddSondeDTO,
     CreateSiteDTO,
-    PostError,
 } from '../../../../rainwater-server/src/models/site.model';
-import { Site } from '../../../../rainwater-server/src/site/site.entity';
+import { PostError } from '../../../../rainwater-server/src/models/response.model';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +31,12 @@ export class SiteService {
         return this.http
             .get<Site>(`${environment.API_URL}sites/${siteId}`)
             .pipe(tap((site) => this.parseSiteJSON(site)));
+    }
+
+    getSiteMetadata(siteId: string): Observable<any> {
+        return this.http.get<SiteMetadata>(
+            `${environment.API_URL}sites/metadata/${siteId}`
+        );
     }
 
     createSite(site: CreateSiteDTO): Observable<any> {

@@ -1,24 +1,5 @@
-<h2>Site Info</h2>
-@if (siteInfo) {
-<h3>
-    Site code: {{ siteInfo.SiteCode || "unknown code" }} Site name:
-    {{ siteInfo.SiteName || "unknown name" }}
-</h3>
-<p>{{ siteInfo.SiteDescription.SiteNotes || "unknown description" }}</p>
-<p>
-    LatLng:
-    {{
-        siteInfo.SiteDescription.Latitude +
-            ":" +
-            siteInfo.SiteDescription.Longitude || "unknown LatLng"
-    }}
-</p>
-<p>
-    Elevation: {{ siteInfo.SiteDescription.Elevation || "unknown elevation" }}
-</p>
-<p>Site Type: {{ siteInfo.SiteDescription.SiteType || "unknown site type" }}</p>
-<p>
-    Vertical Datum:
-    {{ siteInfo.SiteDescription.VerticalDatum || "unknown vertical datum" }}
-</p>
-}
+<div class="container">
+    @if (site) {
+        Site metadata works!
+    }
+</div>

@@ -1,3 +1,4 @@
+<div class="container">
 <form [formGroup]="addSiteForm" (keyup.enter)="createSite()">
     <label for="name">Site Name (required)</label>
     <input type="text" name="name" formControlName="name" /><br />
@@ -13,3 +14,4 @@
     }
     <button type="button" (click)="createSite()">Create New Site</button>
 </form>
+</div>

@@ -11,6 +11,7 @@
     overflow-y: hidden;
     display: grid;
     grid-template-rows: 1fr auto;
+    padding: 0.5rem;
 }
 
 .scroll-panel {

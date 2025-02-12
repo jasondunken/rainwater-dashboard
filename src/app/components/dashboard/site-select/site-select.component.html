@@ -1,9 +1,11 @@
-Select a site
-<select (change)="selectSite($event)">
-    <option selected disabled hidden>Select a site</option>
-    @for (site of sites; track site.id) {
-    <option [value]="site.id">
-        {{ site.name }}
-    </option>
-    }
-</select>
+<div class="container">
+    Select a site
+    <select (change)="selectSite($event)">
+        <option selected disabled hidden>Select a site</option>
+        @for (site of sites; track site.id) {
+        <option [value]="site.id">
+            {{ site.name }}
+        </option>
+        }
+    </select>
+</div>

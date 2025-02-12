@@ -1,15 +1,23 @@
-<h2>Site Info</h2>
-@if (site) {
-<h3>Name: {{ site.name || "unknown name" }}</h3>
-<label for="sondes">Sondes</label>
-<select>
-    <option value="null" selected disabled hidden>
-        @if (site.sondes.length == 0) { Site has no sondes, please add at least
-        one. } @else { select a sonde to see details }
-    </option>
-    @for (sonde of site.sondes; track $index) {
-    <option value="{{ sonde }}">{{ sonde }}</option>
+<div class="container">
+    @if (site) {
+        <h3>{{ site.name || "unknown name" }}</h3>
+
+        <app-site-metadata [site]="site"></app-site-metadata>
+
+        <label for="sondes">Sondes</label>
+        <select name="sondes" id="sondes" (change)="sondeSelected($event)">
+            <option value="null" selected disabled hidden>
+                @if (site.sondes.length == 0) { Site has no sondes, please add at least
+                one. } @else { select a sonde to see details }
+            </option>
+            @for (sonde of site.sondes; track $index) {
+            <option value="{{ sonde }}">{{ sonde }}</option>
+            }
+        </select>
+        @if (selectedSonde) {
+            <app-sonde-info></app-sonde-info>
+            <app-sonde-add-sensor [selectedSonde]="selectedSonde"></app-sonde-add-sensor>
+        }
+        <app-sonde-add [site]="site"></app-sonde-add>
     }
-</select>
-<app-sonde-add [site]="site"></app-sonde-add>
-}
+</div>

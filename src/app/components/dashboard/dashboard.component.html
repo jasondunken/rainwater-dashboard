@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="dashboard-content">
+<div class="dashboard-content" style="border: 1px solid magenta">
     @if (selectedSite) {
     <app-site-info [site]="selectedSite"></app-site-info>
     <!-- <div class="scroll-panel" appScrollToBottom>
@@ -22,7 +22,7 @@
     <div id="location-select">
         @if (sites && sites.length > 0) {
         <app-site-select (selectedSite)="siteSelected($event)" />
-        <br /><br />or Create a New Site<br /><br />
+        or Create a New Site
         } @else {
         <div class="no-sites">No sites found. Please create a new site.</div>
         <br />
