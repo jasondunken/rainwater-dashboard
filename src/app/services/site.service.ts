@@ -5,15 +5,16 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
 import {
+    AddSiteSondeDTO,
+    CreateSiteDTO,
+    UpdateSiteMetadataDTO,
+} from '../../../../rainwater-server/src/models/site.model';
+import { PostError } from '../../../../rainwater-server/src/models/response.model';
+
+import {
     Site,
     SiteMetadata,
 } from '../../../../rainwater-server/src/site/site.entity';
-
-import {
-    AddSondeDTO,
-    CreateSiteDTO,
-} from '../../../../rainwater-server/src/models/site.model';
-import { PostError } from '../../../../rainwater-server/src/models/response.model';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +36,14 @@ export class SiteService {
 
     getSiteMetadata(siteId: string): Observable<any> {
         return this.http.get<SiteMetadata>(
-            `${environment.API_URL}sites/metadata/${siteId}`
+            `${environment.API_URL}sites/metadata/${siteId}`,
+        );
+    }
+
+    putSiteMetadata(siteMetadata: UpdateSiteMetadataDTO): Observable<any> {
+        return this.http.put<UpdateSiteMetadataDTO>(
+            `${environment.API_URL}sites/metadata`,
+            siteMetadata,
         );
     }
 
@@ -51,10 +59,18 @@ export class SiteService {
             .pipe(tap((site) => this.parseSiteJSON(site)));
     }
 
-    addSonde(addInfo: AddSondeDTO): Observable<any> {
+    addSonde(addInfo: AddSiteSondeDTO): Observable<any> {
         return this.http.post<Site | PostError>(
             environment.API_URL + 'sites/sonde',
-            addInfo
+            addInfo,
+        );
+    }
+
+    getSondes(siteId: string): Observable<any> {
+        return this.getSite(siteId).pipe(
+            tap((site) => {
+                return [...site.sondes];
+            }),
         );
     }
 

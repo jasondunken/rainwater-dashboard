@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import {
     map,
@@ -13,7 +14,6 @@ import {
 } from 'leaflet';
 
 import { Location } from '../../../../rainwater-server/src/location/location.entity';
-import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -26,11 +26,11 @@ export class MapService {
     private baseLayers = {
         'Open Street Map': tileLayer(
             'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            { maxZoom: 18, attribution: '...' }
+            { maxZoom: 18, attribution: '...' },
         ),
         'OSM Humanitarian': tileLayer(
             'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-            { maxZoom: 18, attribution: '...' }
+            { maxZoom: 18, attribution: '...' },
         ),
         'OSM Mapnik': tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -91,14 +91,14 @@ export class MapService {
 
             const markerOptions: MarkerOptions = {
                 location: location,
-                title: `Location: ${location.name}`,
+                title: `Site: ${location.name}`,
                 autoPan: true,
             };
 
             const locationMarker = marker(
                 [location.lat, location.lng],
-                markerOptions
-            ).bindPopup(`Location: ${location.name}`);
+                markerOptions,
+            ).bindPopup(`${location.name}`);
 
             locationMarker.on('click', (event) => {
                 this.handleMarkerClick(event);

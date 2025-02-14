@@ -1,0 +1,9 @@
+#site-metadata-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}

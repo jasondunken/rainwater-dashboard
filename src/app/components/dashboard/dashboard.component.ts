@@ -5,10 +5,8 @@ import { Subscription } from 'rxjs';
 
 import { HeaderComponent } from './header/header.component';
 import { SiteCreateComponent } from './site-create/site-create.component';
-import { SiteSelectComponent } from './site-select/site-select.component';
+import { SitePickerComponent } from './site-picker/site-picker.component';
 import { SiteInfoComponent } from './site-info/site-info.component';
-
-//import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.directive';
 
 import { MapService } from '../../services/map.service';
 import { DataService } from '../../services/data.service';
@@ -24,7 +22,7 @@ import { Site } from '../../../../../rainwater-server/src/site/site.entity';
         CommonModule,
         SiteInfoComponent,
         HeaderComponent,
-        SiteSelectComponent,
+        SitePickerComponent, // but it's there I promise
         SiteCreateComponent,
         //ScrollToBottomDirective,
     ],
@@ -44,7 +42,7 @@ export class DashboardComponent implements OnInit {
         private dataService: DataService,
         private siteService: SiteService,
         private locationService: LocationService,
-        private mapService: MapService
+        private mapService: MapService,
     ) {
         this.alertSubscription = this.dataService
             .getAlertStatus()

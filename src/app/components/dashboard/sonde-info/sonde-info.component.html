@@ -1,3 +1,20 @@
 <div class="container">
-<p>sonde-info works!</p>
+    <app-sonde-picker [site]="site" (sondeSelected)="sondeSelected($event)"></app-sonde-picker>
+    @if (selectedSonde()) {
+    <div>sonde: {{ selectedSonde() }}</div>
+    <h3 style="margin: 2px;">Installed Sensors</h3>
+    <div class="sensor-list">
+        <div>Default
+            @for (sensor of defaultSensors(); track $index) {
+                <div>{{ sensor }}</div>
+            }
+        </div>
+        <div>Site
+            @for (sensor of installedSensors(); track $index) {
+                <div>{{ sensor }}</div>
+            }
+        </div>
+    </div>
+    <app-sonde-add-sensor [selectedSonde]="selectedSonde()" (sensorAdded)="sensorAdded($event)"></app-sonde-add-sensor>
+    }    
 </div>

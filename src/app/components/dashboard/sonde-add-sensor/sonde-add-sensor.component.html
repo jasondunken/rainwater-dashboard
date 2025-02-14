@@ -6,4 +6,7 @@
             <option value="{{ sensor }}">{{ sensor }}</option>
         }
     </select>
+    @if (statusMessage().length > 0) {
+        <div class="status-message">{{ statusMessage() }}</div>
+    }
 </div>

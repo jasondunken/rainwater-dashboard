@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationAddComponent } from './location-add.component';
+import { SondePickerComponent } from './sonde-picker.component';
 
-describe('LocationAddComponent', () => {
-  let component: LocationAddComponent;
-  let fixture: ComponentFixture<LocationAddComponent>;
+describe('SondePickerComponent', () => {
+  let component: SondePickerComponent;
+  let fixture: ComponentFixture<SondePickerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LocationAddComponent]
+      imports: [SondePickerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LocationAddComponent);
+    fixture = TestBed.createComponent(SondePickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

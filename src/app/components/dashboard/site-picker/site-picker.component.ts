@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { SiteObj } from '../../../../../../rainwater-server/src/models/site.model';
-import { Site } from '../../../../../../rainwater-server/src/site/site.entity';
-
 import { SiteService } from '../../../services/site.service';
 
+import { Site } from '../../../../../../rainwater-server/src/site/site.entity';
+
 @Component({
-    selector: 'app-site-select',
+    selector: 'app-site-picker',
     imports: [CommonModule],
-    templateUrl: './site-select.component.html',
-    styleUrl: './site-select.component.css',
+    templateUrl: './site-picker.component.html',
+    styleUrl: './site-picker.component.css',
 })
-export class SiteSelectComponent {
+export class SitePickerComponent {
     @Output() selectedSite = new EventEmitter<string>();
 
     sites!: Site[];

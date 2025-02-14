@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    signal,
+} from '@angular/core';
 import {
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -8,8 +15,8 @@ import {
 
 import { SiteService } from '../../../services/site.service';
 
+import { AddSiteSondeDTO } from '../../../../../../rainwater-server/src/models/site.model';
 import { Site } from '../../../../../../rainwater-server/src/site/site.entity';
-import { AddSondeDTO } from '../../../../../../rainwater-server/src/models/site.model';
 
 @Component({
     selector: 'app-sonde-add',
@@ -19,13 +26,15 @@ import { AddSondeDTO } from '../../../../../../rainwater-server/src/models/site.
 })
 export class SondeAddComponent implements OnInit {
     @Input() site!: Site;
+    @Output() sondeAdded = new EventEmitter<string>();
+
     statusMessage = signal<string>('');
 
     addSondeForm!: UntypedFormGroup;
 
     constructor(
         private fb: UntypedFormBuilder,
-        private siteService: SiteService
+        private siteService: SiteService,
     ) {}
 
     ngOnInit() {
@@ -37,18 +46,16 @@ export class SondeAddComponent implements OnInit {
     addSonde() {
         if (this.addSondeForm.valid) {
             this.statusMessage.set('');
-            const addSondeInfo: AddSondeDTO = {
+            const addSondeInfo: AddSiteSondeDTO = {
                 siteId: this.site.id,
                 sondeId: this.addSondeForm.value.sondeID,
             };
             this.siteService.addSonde(addSondeInfo).subscribe((res) => {
-                console.log('res:', res);
                 if (res.message) {
-                    console.log('res.message:', res);
                     this.statusMessage.set(res.message);
                 } else {
-                    console.log('res.no-message:', res);
                     this.statusMessage.set('Sonde added successfully!');
+                    this.sondeAdded.emit(this.addSondeForm.value.sondeID);
                 }
             });
         } else {

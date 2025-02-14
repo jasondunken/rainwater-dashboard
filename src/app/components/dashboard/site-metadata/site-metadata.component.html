@@ -1,5 +1,42 @@
 <div class="container">
     @if (site) {
-        Site metadata works!
+    <form [formGroup]="siteMetadataForm" (keyup.enter)="saveMetadata()" id="site-metadata-form">
+        <div class="form-field">
+            <label for="code">Code</label>
+            <input type="text" id="code" formControlName="code" />
+        </div>
+
+        <div class="form-field">
+            <label for="description">Description</label>
+            <input type="text" id="description" formControlName="description"/>
+        </div>
+
+        <div class="form-field">
+            <label for="elevation">Elevation</label>
+            <input type="text" id="elevation" formControlName="elevation"/>
+        </div>
+
+        <div class="form-field">
+            <label for="verticalDatum">Vertical Datum</label>
+            <input type="text" id="verticalDatum" formControlName="verticalDatum"/>
+        </div>
+
+        <div class="form-field">
+            <label for="siteType">Type</label>
+            <input type="text" id="siteType" formControlName="siteType"/>
+        </div>
+
+        <div class="form-field">
+            <label for="siteNotes">Notes</label>
+            <input type="text" id="siteNotes" formControlName="siteNotes"/>
+        </div>
+
+        <div class="form-field">
+            <label for="sourceLink">Source Code</label>
+            <input type="text" id="sourceLink" formControlName="sourceLink"/>
+        </div>
+
+        <button type="button" (click)="saveMetadata()">{{ !updating? "Edit" : "Save" }}</button>
+    </form>
     }
 </div>

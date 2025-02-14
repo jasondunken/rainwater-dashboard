@@ -37,7 +37,7 @@ export class SiteCreateComponent implements OnInit, OnDestroy {
     constructor(
         private fb: UntypedFormBuilder,
         private siteService: SiteService,
-        private mapService: MapService
+        private mapService: MapService,
     ) {
         this.mapClickSubscription = this.mapService
             .getMapClick()

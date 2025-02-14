@@ -1,27 +1,11 @@
 <app-header></app-header>
-<div class="dashboard-content" style="border: 1px solid magenta">
+<div class="dashboard-content">
     @if (selectedSite) {
     <app-site-info [site]="selectedSite"></app-site-info>
-    <!-- <div class="scroll-panel" appScrollToBottom>
-        <table>
-            <thead class="sticky-header">
-                @for (colName of selectedSite.features; track $index) {
-                <th>{{ colName }}</th>
-                }
-            </thead>
-            @for (row of selectedSite.rows; track $index) {
-            <tr>
-                @for (val of row; track $index) {
-                <td>{{ val }}</td>
-                }
-            </tr>
-            }
-        </table>
-    </div> -->
     } @else {
-    <div id="location-select">
+    <div>
         @if (sites && sites.length > 0) {
-        <app-site-select (selectedSite)="siteSelected($event)" />
+        <app-site-picker (selectedSite)="siteSelected($event)" ></app-site-picker>
         or Create a New Site
         } @else {
         <div class="no-sites">No sites found. Please create a new site.</div>
