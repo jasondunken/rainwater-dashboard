@@ -1,4 +1,4 @@
-import { Component, Input, signal, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, signal, ViewChild } from '@angular/core';
 
 import { SondeAddSensorComponent } from '../sonde-add-sensor/sonde-add-sensor.component';
 import { SondePickerComponent } from '../sonde-picker/sonde-picker.component';
@@ -14,7 +14,7 @@ import { Sonde } from '../../../../../../rainwater-server/src/sonde/sonde.entity
     templateUrl: './sonde-info.component.html',
     styleUrl: './sonde-info.component.css',
 })
-export class SondeInfoComponent {
+export class SondeInfoComponent implements OnInit {
     @Input() site!: Site;
     @ViewChild(SondePickerComponent)
     sondePickerComponent!: SondePickerComponent;
@@ -26,6 +26,20 @@ export class SondeInfoComponent {
 
     constructor(private sondeService: SondeService) {}
 
+    ngOnInit() {
+        console.log('SondeInfo:', this.selectedSonde());
+    }
+
+    sondeAdded(sondeId: string) {
+        this.sondePickerComponent.addSonde(sondeId);
+        this.sondeSelected(sondeId);
+    }
+
+    sondeSelected(sondeId: string) {
+        this.selectedSonde.set(sondeId);
+        this.getSensors(sondeId);
+    }
+
     getSensors(sondeId: string) {
         this.sondeService.getSensorTypes(sondeId).subscribe((sensors) => {
             this.defaultSensors.set(sensors.default);
@@ -36,16 +50,7 @@ export class SondeInfoComponent {
         });
     }
 
-    sondeSelected(sondeId: string) {
-        this.selectedSonde.set(sondeId);
-        this.getSensors(sondeId);
-    }
-
     sensorAdded(sonde: Sonde) {
         this.installedSensors.set([...sonde.sensors]);
-    }
-
-    sondeAdded(sondeId: string) {
-        this.sondePickerComponent.addSonde(sondeId);
     }
 }

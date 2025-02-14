@@ -19,6 +19,7 @@ import { Site } from '../../../../../../rainwater-server/src/site/site.entity';
 })
 export class SondePickerComponent {
     @Input() site!: Site;
+    @Input() selectedSonde!: string;
     @Output() sondeSelected = new EventEmitter<any>();
 
     private siteService = inject(SiteService);
@@ -29,9 +30,10 @@ export class SondePickerComponent {
         this.siteService.getSondes(this.site.id).subscribe((site) => {
             if (site.sondes?.length > 0) {
                 this.sondes.set(site.sondes);
-                this.selectSonde(site.sondes[0]);
             }
         });
+
+        console.log('selectedSonde', this.selectedSonde);
     }
 
     selectSondeEvent(event: any): void {
@@ -44,6 +46,6 @@ export class SondePickerComponent {
 
     addSonde(sondeId: string): void {
         this.sondes.set([...this.sondes(), sondeId]);
-        this.selectSonde(sondeId);
+        this.selectedSonde = sondeId;
     }
 }

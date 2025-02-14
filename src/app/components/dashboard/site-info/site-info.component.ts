@@ -25,10 +25,6 @@ export class SiteInfoComponent {
 
     selectedSonde = signal<string>('');
 
-    sondeSelected(sondeId: string): void {
-        this.selectedSonde.set(sondeId);
-    }
-
     sondeAdded(sondeId: string): void {
         this.sondeInfoComponent.sondeAdded(sondeId);
     }

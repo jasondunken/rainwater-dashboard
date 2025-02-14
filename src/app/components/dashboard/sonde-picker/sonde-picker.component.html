@@ -1,11 +1,11 @@
 
-<label for="sondes">Sondes </label>
-<select name="sondes" id="sondes" (change)="selectSondeEvent($event)" #sondePicker>
+<label for="sonde-picker">Sondes </label>
+<select name="sonde-picker" id="sonde-picker" (change)="selectSondeEvent($event)" #sondePicker>
     <option value="null" selected disabled hidden>
         @if (sondes().length < 1) { Site has no sondes, please add at least
         one. } @else { select a sonde to see details }
     </option>
     @for (sonde of sondes(); track $index) {
-    <option value="{{ sonde }}">{{ sonde }}</option>
+    <option value="{{ sonde }}" [selected]="sonde === selectedSonde">{{ sonde }}</option>
     }
 </select>

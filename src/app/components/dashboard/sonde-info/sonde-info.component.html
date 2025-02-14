@@ -1,5 +1,5 @@
 <div class="container">
-    <app-sonde-picker [site]="site" (sondeSelected)="sondeSelected($event)"></app-sonde-picker>
+    <app-sonde-picker [site]="site" [selectedSonde]="selectedSonde()" (sondeSelected)="sondeSelected($event)"></app-sonde-picker>
     @if (selectedSonde()) {
     <div>sonde: {{ selectedSonde() }}</div>
     <h3 style="margin: 2px;">Installed Sensors</h3>
