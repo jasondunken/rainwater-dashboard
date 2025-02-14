@@ -1,5 +1,5 @@
 
-<label for="sonde-picker">Sondes </label>
+<label for="sonde-picker"><strong>Sonde </strong></label>
 <select name="sonde-picker" id="sonde-picker" (change)="selectSondeEvent($event)" #sondePicker>
     <option value="null" selected disabled hidden>
         @if (sondes().length < 1) { Site has no sondes, please add at least

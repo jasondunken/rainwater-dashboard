@@ -6,10 +6,11 @@ import { DataImportService } from './data-import.service';
 
 import {
     DataRow,
-    SiteObj,
-    Sonde,
     Location,
 } from '../../../../rainwater-server/src/models/site.model';
+
+import { Site } from '../../../../rainwater-server/src/site/site.entity';
+import { Sonde } from '../../../../rainwater-server/src/sonde/sonde.entity';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +19,7 @@ export class DataService implements OnDestroy {
     private pollTimer!: ReturnType<typeof setInterval>;
     POLL_INTERVAL = 7000; // ms
 
-    selectedSite!: SiteObj;
+    selectedSite!: Site;
     selectedSonde!: Sonde;
 
     private alertSubject = new Subject<any>();
@@ -31,32 +32,32 @@ export class DataService implements OnDestroy {
     getSiteData(location: Location): Observable<any> {
         return this.devData.getSiteData(location).pipe(
             tap((site) => {
-                this.selectedSite = site as SiteObj;
-            })
+                this.selectedSite = site as Site;
+            }),
         );
     }
 
     pollForNewData(): void {
         this.pollTimer = setInterval(
             () => this.getNewData(),
-            this.POLL_INTERVAL
+            this.POLL_INTERVAL,
         );
     }
 
     getNewData(): void {
-        this.devData.getNewData().subscribe((newRows) => {
-            console.log('newRows: ', newRows);
-            if (newRows.length > 0 && this.selectedSite) {
-                for (let row of newRows) {
-                    this.selectedSite.rows?.push(row.data);
-                    if (row.invalidValueIndices.length > 0) {
-                        this.invalidRows.push(row);
-                        this.showBadDataAlert = true;
-                        this.alertSubject.next(this.showBadDataAlert);
-                    }
-                }
-            }
-        });
+        // this.devData.getNewData().subscribe((newRows) => {
+        //     console.log('newRows: ', newRows);
+        //     if (newRows.length > 0 && this.selectedSite) {
+        //         for (let row of newRows) {
+        //             this.selectedSite.rows?.push(row.data);
+        //             if (row.invalidValueIndices.length > 0) {
+        //                 this.invalidRows.push(row);
+        //                 this.showBadDataAlert = true;
+        //                 this.alertSubject.next(this.showBadDataAlert);
+        //             }
+        //         }
+        //     }
+        // });
     }
 
     addBadData() {

@@ -32,8 +32,6 @@ export class SondePickerComponent {
                 this.sondes.set(site.sondes);
             }
         });
-
-        console.log('selectedSonde', this.selectedSonde);
     }
 
     selectSondeEvent(event: any): void {

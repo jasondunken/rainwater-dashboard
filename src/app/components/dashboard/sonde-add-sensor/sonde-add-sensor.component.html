@@ -1,7 +1,7 @@
 <div class="container">
     <div>Add a sensor to sonde</div>
     <select id="availableSensors" name="availableSSensors" (change)="addSensor($event)">
-        <option value="null" selected disabled hidden>select a sensor</option>
+        <option value="null" selected disabled hidden>select a sensor to add</option>
         @for (sensor of availableSensors(); track $index) {
             <option value="{{ sensor }}">{{ sensor }}</option>
         }

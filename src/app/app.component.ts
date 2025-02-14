@@ -3,11 +3,11 @@ import { Component, EventEmitter, Input, model, Output } from '@angular/core';
 import { MapComponent } from './components/map/map/map.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { ControlsComponent } from './components/dev/controls/controls.component';
+// import { ControlsComponent } from './components/dev/controls/controls.component';
 
 @Component({
     selector: 'app-root',
-    imports: [MapComponent, DashboardComponent, ControlsComponent],
+    imports: [MapComponent, DashboardComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
 })
